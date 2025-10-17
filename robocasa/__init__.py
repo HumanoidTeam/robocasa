@@ -303,18 +303,20 @@ from robosuite.models.grippers import ALL_GRIPPERS
 from robosuite.robots import ALL_ROBOTS
 
 import mujoco
+from packaging import version
 
+# Check mujoco version - allow 3.2.6 and above
 assert (
-    mujoco.__version__ == "3.2.6"
-), "MuJoCo version must be 3.2.6. Please run pip install mujoco==3.2.6"
+    version.parse(mujoco.__version__) >= version.parse("3.2.6")
+), f"MuJoCo version must be >= 3.2.6. Current version: {mujoco.__version__}"
 
 import numpy
 
-assert numpy.__version__ in [
-    "1.23.2",
-    "1.23.3",
-    "1.23.5",
-], "numpy version must be either 1.23.{2,3,5}. Please install one of these versions."
+# Check numpy version - allow 1.23.x and above (but less than 2.0)
+assert (
+    version.parse(numpy.__version__) >= version.parse("1.23.2") and
+    version.parse(numpy.__version__) < version.parse("2.0.0")
+), f"numpy version must be >= 1.23.2 and < 2.0. Current version: {numpy.__version__}"
 
 import robosuite
 
